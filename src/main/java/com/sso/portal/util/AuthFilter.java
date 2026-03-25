@@ -57,6 +57,8 @@ public class AuthFilter implements Filter {
         HttpServletRequest httpRequest = (HttpServletRequest)request;
         HttpServletResponse httpResponse = (HttpServletResponse)response;
         
+        System.out.println("[Access Log] Request URI: " + httpRequest.getRequestURI());
+        
         //세션을 가져오기만 해야함 세션이 없으면 null
         HttpSession session = httpRequest.getSession(false);
 
