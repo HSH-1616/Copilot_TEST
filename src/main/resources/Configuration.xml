@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+	<!-- <typeAliases>
+		<typeAlias alias="json" type="org.json.JSONObject"/>
+		<typeAlias alias="jsonArray" type="org.json.JSONArray"/>				       
+    </typeAliases> -->
+     
+    <environments default="development">
+        <environment id="development">
+            <transactionManager type="JDBC" />
+            <dataSource type="JNDI">
+            	<!-- Tomcat Version -->
+                <!--<property name="data_source" value="java:/comp/env/jdbc/RMS" />-->
+
+                <!-- WebSphere Version -->
+                <property name="data_source" value="jdbc/portal" />
+		</dataSource>
+        </environment>
+    </environments>
+        
+    <!-- <environments default="development">
+        <environment id="development">
+            <transactionManager type="JDBC" />
+            <dataSource type="POOLED">
+                <property name="driver" value="${ezflow.driver}" />
+                <property name="url" value="${ezflow.url}" />
+                <property name="username" value="${ezflow.user}" />
+                <property name="password" value="${ezflow.pass}" />
+                <property name="schema" value="RMSADM" />
+				<property name="poolMaximumActiveConnections" value="10"/>
+                <property name="poolMaximumIdleConnections" value="10"/>
+ 				MariaDB
+				<property name="poolPingQuery" value="SELECT SYSDATE()"/>
+				TIBERO
+                <property name="poolPingQuery" value="SELECT SYSDATE FROM DUAL"/>
+                DB2
+                <property name="poolPingQuery" value="SELECT 1 FROM sysibm.sysdummy1"/>
+                <property name="poolPingEnabled" value="true"/>
+                <property name="poolPingConnectionsNotUsedFor" value="900000"/>
+            </dataSource>
+        </environment>
+    </environments> -->
+
+    <mappers>    	
+    	<!-- DB2 쿼리 -->
+    	<mapper resource="com/sso/portal/sql/user.xml" />    	
+    </mappers>
+</configuration>

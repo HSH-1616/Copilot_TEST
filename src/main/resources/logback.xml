@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+    <!-- 변수 지정 -->
+    <property name="LOG_DIR" value="/iamapp/logs/WebSphere/RMS" />
+    <property name="LOG_PATH_NAME" value="${LOG_DIR}/base.log" />
+
+    <!-- FILE Appender -->
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    	<file>${LOG_DIR}/base_RMS.log</file>
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} [%-5p] [%c] : %m%n</pattern>
+        </encoder>
+        <!-- 일자별로 로그파일 적용하기 -->
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_DIR}/base.log-%d{yyyy-MM-dd}.gz</fileNamePattern>
+            <maxHistory>180</maxHistory> <!-- 일자별 백업파일의 보관기간 -->
+        </rollingPolicy>
+    </appender>
+
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+      <layout class="ch.qos.logback.classic.PatternLayout">
+        <pattern>%d{yyyy-MM-dd HH:mm:ss} [%-5p] [%c] : %m%n</pattern>
+      </layout>
+    </appender>
+	
+	<appender name="ERROR" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>error</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+
+        <file>${LOG_DIR}/error.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- rollover daily -->
+            <fileNamePattern>${LOG_DIR}/error.log-%d{yyyy-MM-dd}.gz</fileNamePattern>
+            <!-- each file should be at most 100MB, keep 60 days worth of history, but at most 20GB -->
+            <maxHistory>180</maxHistory>
+        </rollingPolicy>
+
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} [%-5p] [%c] : %m%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- TRACE > DEBUG > INFO > WARN > ERROR, 대소문자 구분 안함 -->
+    <!-- profile 을 읽어서 appender 을 설정할수 있다.(phase별 파일을 안만들어도 되는 좋은 기능) -->
+    <root level="DEBUG">
+      <appender-ref ref="FILE" />
+      <appender-ref ref="ERROR" />
+      <appender-ref ref="STDOUT" />
+    </root>
+</configuration>

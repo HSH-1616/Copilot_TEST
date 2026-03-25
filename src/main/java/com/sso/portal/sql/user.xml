@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sso.portal.sql.user">
+	<select id = "getAuthUser" parameterType="map" resultType = "map">
+		SELECT 
+		       usr.USER_NM, 
+		       usr.USER_ENG_NM, 
+		       usr.USER_ID, 
+		       usr.DEPT_CD, 
+		       usr.JOBCD, 
+		       usr.JOBNM, 
+		       usr.USER_JOBLVL_NM, 
+		       usr.TELNO_ENC AS TELNO, 
+		       usr.EMAIL_ADDR_ENC AS EMAIL_ADDR, 
+		       usr.DEPT_MNGR_USER_ID,
+		       usr.DEPT_MNGR_USER_ID, 
+		       usr.USER_EMPM_SHAP_CD, 
+		       usr.JOIN_DATE, 
+		       usr.RTM_DATE, 
+		       usr.USE_FLG, 
+		       usr.CNCRPS_FLG, 
+		       dept.DEPT_NM, 
+		       al.EIAM_APRL_LINE_CD, 
+		       fr.FIRST_DEPT_CD, 
+		       fr.FIRST_DEPT_NM,
+		       usr.COMPANY,
+		       usr.USR_UDF_GRADE,
+		       usr.USR_UDF_GRADE_NM,
+		       nvl(usr.LANGUAGE_CD, 'KO') AS LANGUAGE_CD
+		  FROM EI_USER_INFO usr 
+		   LEFT JOIN EI_DEPT_INFO dept 
+		       ON usr.DEPT_CD = dept.DEPT_CD 
+		       AND usr.COMPANY = dept.COMPANY
+		   LEFT JOIN VW_UPP_DEPT_INFO fr 
+		       ON usr.DEPT_CD = fr.DEPT_CD  
+		       AND usr.COMPANY = fr.COMPANY
+		   LEFT JOIN VW_APPROVAL_USER al 
+		       ON al.USER_ID = usr.USER_ID 
+		 WHERE upper(usr.user_id) = upper(#{USER_ID})
+		 	   <if test = "USER_PW !=null and USER_PW.length() > 0">
+		       AND usr.USER_PW_ENC = #{USER_PW} 
+		       </if>
+		 	AND usr.USE_FLG = 'Y'
+		ORDER BY usr.USER_NM
+	</select>
+</mapper>
