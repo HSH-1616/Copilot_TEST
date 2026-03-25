@@ -4,6 +4,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Properties;
 
@@ -194,6 +197,30 @@ public class DBManager {
         try {
             if (session != null) {
             	session.close(); 
+            }
+        } catch (Exception ex) {}
+    }
+
+    public void freeConnection(Connection conn) {
+        try {
+            if (conn != null) {
+                conn.close();
+            }
+        } catch (Exception ex) {}
+    }
+
+    public void freeConnection(PreparedStatement pstmt) {
+        try {
+            if (pstmt != null) {
+                pstmt.close();
+            }
+        } catch (Exception ex) {}
+    }
+
+    public void freeConnection(ResultSet rs) {
+        try {
+            if (rs != null) {
+                rs.close();
             }
         } catch (Exception ex) {}
     }
